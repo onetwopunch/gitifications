@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "bluebird": "^3.2.1",
+    "node-notifier": "^4.4.0",
     "superagent": "^1.7.2"
   }
 }

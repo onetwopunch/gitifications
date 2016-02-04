@@ -1,11 +1,16 @@
 'use strict'
 
-var ipc = require('electron').ipcRenderer;
-var polling_interval = 30 * 1000; //30 seconds
-var reminder_interval = 60 * 60 * 1000; //1 Hour
-var Github = require('./github');
-var github = new Github();
-var date = new Date().toISOString();
+const ipc = require('electron').ipcRenderer;
+const polling_interval = 30 * 1000; //30 seconds
+const reminder_interval = 60 * 60 * 1000; //1 Hour
+const Github = require('./github');
+const github = new Github();
+const date = new Date().toISOString();
+const NotificationCenter = require('node-notifier').NotificationCenter;
+const helper = require('./helper');
+const path = require('path');
+const remote = require('electron').remote;
+const BrowserWindow = remote.BrowserWindow;
 
 var notificationsCallback = function(data){
   console.log(date);
@@ -13,10 +18,12 @@ var notificationsCallback = function(data){
   if (data.length == 0)
     return;
 
-  let message;
+  let message, type;
   if (data.length == 1) {
     try {
       message = data[0].subject.title
+      type = data[0].subject.type
+      url = data[0].repository.html_url
     } catch(e){
       message = "You have " + data.length + " unread Github notifications";
     }
@@ -24,9 +31,19 @@ var notificationsCallback = function(data){
     message = "You have " + data.length + " unread Github notifications";
   }
 
-  new Notification('New Github Notification', {
-    body: message
-  })
+  // new Notification('New Github Notification', {
+  //   body: message
+  // })
+  var notifier = new NotificationCenter();
+  var icon = path.join(helper.getRoot(), 'img', 'git_icon.png');
+  notifier.notify({
+    'title': "New Github Notification",
+    'subtitle': type,
+    'message': message,
+    'sound': 'Funk', // Case Sensitive string for location of sound file, or use one of OS X's native sounds (see below)
+    'icon': icon, // Absolute Path to Triggering Icon
+    'wait': true // Wait for User Action against Notification
+  });
   date = new Date().toISOString();
 }
 
@@ -41,7 +58,7 @@ function checkForNotifications() {
 
 function remindAboutNotifications() {
   console.log("Reminder!")
-  github.notifications(new Date().toISOString())
+  github.notifications()
   .then(notificationsCallback)
   .catch( function(err) {
     console.log(err);
