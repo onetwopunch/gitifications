@@ -78,6 +78,7 @@ module.exports = class Github {
              response += chunk;
           });
           res.on('end', () => {
+            console.log("response code: " + res.statusCode);
             var data = JSON.parse(response);
             return resolve(data);
           })

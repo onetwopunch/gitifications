@@ -1,6 +1,6 @@
 'use strict'
 
-var ipc = require('ipc');
+var ipc = require('electron').ipcRenderer;
 var interval = 30 * 1000; //two minutes
 var Github = require('./github');
 var date = new Date().toISOString();
