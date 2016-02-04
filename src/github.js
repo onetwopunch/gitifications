@@ -5,8 +5,8 @@ const Promise = require('bluebird');
 const path    = require('path');
 const helper = require('./helper');
 const credentialsFile = path.join(helper.getRoot(), 'credentials.json');
-const request = require('request');
-
+const request = require('superagent');
+const githubUrl = 'https://api.github.com/notifications'
 module.exports = class Github {
 
   getCredentialsFile() {
@@ -39,18 +39,14 @@ module.exports = class Github {
   }
   validateToken( username, token ) {
     return new Promise( (resolve, reject) => {
-      var opts = {
-        hostname: 'api.github.com',
-        method: 'GET',
-        path: '/notifications',
-        port: 443,
-        headers: { "Authorization": "TOKEN " +token, "User-Agent": username }
-      }
-      https.request(opts, (res) => {
-        return resolve(res.statusCode == 200);
-      }).on('error', (err) => {
-        return reject(err);
-      }).end();
+      request.get( githubUrl )
+      .set({ "Authorization": "TOKEN " +token, "User-Agent": username })
+      .end( (err, res) => {
+        if (err)
+          return resolve(res.statusCode == 200);
+        else
+          return reject(err);
+      })
     })
   }
   notifications( since ){
@@ -61,33 +57,20 @@ module.exports = class Github {
         token = "TOKEN " + creds.token;
         username = creds.username;
       })
-      .then( function() {
-        var opts = {
-          hostname: 'api.github.com',
-          method: 'GET',
-          // path: '/notifications?since=' + since,
-          path: '/notifications',
-          port: 443,
-          headers: { "Authorization": token, "User-Agent": username }
-        }
-        console.log({token: token, username: username});
-        https.request(opts, (res) => {
-          var response = "";
-          res.setEncoding('utf8');
-          res.on('data', (chunk) => {
-             response += chunk;
-          });
-          res.on('end', () => {
-            console.log("response code: " + res.statusCode);
-            var data = JSON.parse(response);
-            return resolve(data);
-          })
-        }).on('error', (err) => {
-          return reject(err);
-        }).end();
+      .then( () => {
+
+        request.get( githubUrl )
+        .query({since: since})
+        .set({ "Authorization": token, "User-Agent": username })
+        .end( (err, res) => {
+          if (!err)
+            return resolve(res.body);
+          else
+            return reject(err);
+        })
       })
-      .catch( function(err ) {
-        console.log(err);
+      .catch( ( err ) => {
+        return reject(err);
       })
     })
   }
