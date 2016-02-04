@@ -1,7 +1,7 @@
 'use strict'
 
 var ipc = require('ipc');
-var interval = 5 * 1000; //two minutes
+var interval = 30 * 1000; //two minutes
 var Github = require('./github');
 var date = new Date().toISOString();
 

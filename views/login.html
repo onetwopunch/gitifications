@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./main.css"/>
+    <script src="../lib/sweetalert.min.js"></script> <link rel="stylesheet" type="text/css" href="../lib/sweetalert.css">
+  </head>
+  <body>
+    <div class="form-group">
+
+      <h2>Login To Github</h2>
+      <p style="text-align:left">
+          <ol>
+            <li>
+              <a href="https://github.com/settings/tokens/new" target="_blank">Generate a personal token</a> with notification access in Github.
+            </li>
+            <li>
+              Copy the newly created token below with your username and click Save.
+            </li>
+          </ol>
+      </p>
+
+      <input type="text" id="username" placeholder="Github Username"/><br>
+
+      <input type="text" id="token" placeholder="Personal API Token"/><br>
+
+      <button class="btn" id="save">Save</button>
+    </div>
+  </body>
+
+  <script>
+    require("../src/login.js")
+  </script>
+</html>

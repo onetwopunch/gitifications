@@ -1,2 +1,2 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-node $DIR/../lib/repl.js
+node $DIR/../src/repl.js

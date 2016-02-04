@@ -1,24 +1,35 @@
 'use strict';
 
 const electron = require('electron');
-const nativeImage = require('electron').nativeImage;
 const app = electron.app;
 const Menu = electron.Menu;
 const MenuItem = electron.MenuItem;
 const Notification = electron.Notification;
-const Messenger = require('./lib/messenger');
+const BrowserWindow = electron.BrowserWindow;
 const Tray = electron.Tray;
+
+const helper = require('./src/helper');
+const Github = require('./src/github');
+const Messenger = require('./src/messenger');
 const path = require('path');
+const fs = require('fs');
 
-let tray, quit, messenger;
+let tray, quit, messenger, window, gh;
 
-var open_token_window = function() {}
+var open_login_window = function() {
+  window = new BrowserWindow({ width: 500, height: 500, show: false })
+  window.on('closed', () => { window = null } )
+
+  let url = path.join("file://", helper.getRoot(), 'views', 'login.html');
+  window.loadURL(url);
+  window.show();
+  // window.webContents.openDevTools();
+}
 app.on('ready', function() {
 
-  let image = nativeImage.createFromPath(path.join(__dirname, 'img', 'github.png'))
-  tray = new Tray( image );
+  tray = new Tray( path.join(__dirname, 'img', 'git.png') );
   let contextMenu = Menu.buildFromTemplate([
-    { label: 'Add token', click: open_token_window},
+    { label: 'Set Token', click: open_login_window},
     { label: 'Quit', click: app.quit }
   ]);
 
@@ -31,4 +42,11 @@ app.on('ready', function() {
 
   // Hide the dock
   app.dock.hide()
+
+  gh = new Github()
+  fs.stat(gh.getCredentialsFile(), function(err, stats) {
+    if (!stats) {
+      open_login_window()
+    }
+  })
 })

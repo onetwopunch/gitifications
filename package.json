@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
+  "name": "gitify",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Get Github notifications natively!",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
@@ -19,14 +19,13 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "bugs": {
-    "url": "https://github.com/atom/electron-quick-start/issues"
+    "url": "https://github.com/onetwopunch/gitify/issues"
   },
-  "homepage": "https://github.com/atom/electron-quick-start#readme",
+  "homepage": "https://github.com/onetwopunch/gitify#readme",
   "devDependencies": {
     "electron-prebuilt": "^0.36.0"
   },
   "dependencies": {
-    "bluebird": "^3.2.1",
-    "dotenv": "^2.0.0"
+    "bluebird": "^3.2.1"
   }
 }
