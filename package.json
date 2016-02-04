@@ -1,5 +1,5 @@
 {
-  "name": "gitify",
+  "name": "gitifications",
   "version": "1.0.0",
   "description": "Get Github notifications natively!",
   "main": "main.js",
@@ -16,12 +16,12 @@
     "start",
     "tutorial"
   ],
-  "author": "GitHub",
+  "author": "Ryan Canty<jrcanty@gmail.com>",
   "license": "CC0-1.0",
   "bugs": {
-    "url": "https://github.com/onetwopunch/gitify/issues"
+    "url": "https://github.com/onetwopunch/gitifications/issues"
   },
-  "homepage": "https://github.com/onetwopunch/gitify#readme",
+  "homepage": "https://github.com/onetwopunch/gitifications#readme",
   "devDependencies": {
     "electron-prebuilt": "^0.36.0"
   },
