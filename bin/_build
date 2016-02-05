@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ROOT=$(dirname $DIR)
+APP=$ROOT/dist/Gitifications.app/Contents/Resources/app
+
+echo $APP
+cp -R $ROOT/node_modules/electron-prebuilt/dist $ROOT/
+
+mv $ROOT/dist/Electron.app $ROOT/dist/Gitifications.app
+mkdir $APP
+
+cp -R img $APP/
+cp -R lib $APP/
+cp -R src $APP/
+cp -R views $APP/
+cp main.js $APP/
+cp package.json $APP/
+
+cd $APP
+npm install --production

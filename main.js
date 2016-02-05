@@ -22,9 +22,29 @@ var open_login_window = function() {
 
   let url = path.join("file://", helper.getRoot(), 'views', 'login.html');
   window.loadURL(url);
+  window.setTitle("Gitifications")
   window.show();
+
+  // This enables copy/paste key bindings
+  var template = [{
+      label: "Edit",
+      submenu: [
+          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]}
+  ];
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
   // window.webContents.openDevTools();
 }
+app.on('gpu-process-crashed', function(){
+  app.quit()
+})
+
 app.on('ready', function() {
 
   tray = new Tray( path.join(__dirname, 'img', 'git.png') );
@@ -40,8 +60,6 @@ app.on('ready', function() {
   //Set up messenger
   messenger = new Messenger();
 
-  // Hide the dock
-  app.dock.hide()
 
   gh = new Github()
   fs.stat(gh.getCredentialsFile(), function(err, stats) {
@@ -49,4 +67,9 @@ app.on('ready', function() {
       open_login_window()
     }
   })
+  app.makeSingleInstance( function(){
+    open_login_window()
+  })
+  app.dock.hide()
+
 })

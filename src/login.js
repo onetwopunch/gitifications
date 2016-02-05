@@ -1,8 +1,10 @@
-var Github = require('../src/github');
-var gh = new Github();
-var save = document.getElementById('save');
-var win = require('electron').remote.getCurrentWindow();
-var dialog = require('electron').dialog;
+const Github = require('../src/github');
+const gh = new Github();
+const save = document.getElementById('save');
+const paste = document.getElementById('paste');
+const win = require('electron').remote.getCurrentWindow();
+const dialog = require('electron').dialog;
+const clipboard = require('electron').clipboard;
 
 save.onclick = function(){
   var username = document.getElementById('username').value;
@@ -36,7 +38,9 @@ save.onclick = function(){
       confirmButtonText: "Good to know" });
   })
 };
-
+paste.onclick = function() {
+  document.getElementById('token').value = clipboard.readText();
+}
 gh.getCredentials()
 .then( function(data){
   document.getElementById('username').value = data.username;

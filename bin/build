@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ROOT=$(dirname $DIR)
+
+electron-packager $ROOT Gitifications --platform=darwin \
+  --arch=x64 --version=0.35.6 --out $ROOT/dist --icon $ROOT/img/git.icns

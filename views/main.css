@@ -3,10 +3,13 @@ body {
   background:-webkit-gradient(linear, left top, left bottom, from(#555), to(#333)) fixed no-repeat;
   text-align: center;
   color: #eee;
-  font-family:Courier;
+  font-family:Arial;
 }
 a {
   color: #eee;
+}
+li {
+  text-align: left
 }
 @font-face {
   font-family: aaargh;
@@ -14,7 +17,18 @@ a {
   font-weight: normal;
   font-style: normal;
 }
-
+#token {
+  margin-left: 20px;
+}
+#paste {
+  float: right;
+  z-index: 1000;
+  position: relative;
+  right: 19%;
+  top: 18px;
+  cursor: pointer;
+  margin: auto;
+}
 h2 {
   font-size: 40px;
   font-family: aaargh;
