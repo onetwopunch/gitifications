@@ -10,6 +10,7 @@ save.onclick = function(){
   var username = document.getElementById('username').value;
   var token = document.getElementById('token').value;
   console.log(username);
+  console.log(token);
   gh.validateToken(username, token)
   .then( function(result){
     if (result) {
@@ -30,10 +31,10 @@ save.onclick = function(){
     }, function(){ win.close(); })
 
   }).catch(function(err){
-    console.log("error caught" + err);
+    console.log("error caught " + err);
     swal({
       title: "Error!",
-      text: err.message,
+      text: err,
       type: "error",
       confirmButtonText: "Good to know" });
   })

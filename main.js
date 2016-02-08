@@ -39,7 +39,7 @@ var open_login_window = function() {
   ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-  // window.webContents.openDevTools();
+  window.webContents.openDevTools();
 }
 app.on('gpu-process-crashed', function(){
   app.quit()

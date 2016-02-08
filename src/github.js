@@ -42,10 +42,12 @@ module.exports = class Github {
       request.get( githubUrl )
       .set({ "Authorization": "TOKEN " +token, "User-Agent": username })
       .end( (err, res) => {
-        if (err)
+        if (!err)
           return resolve(res.statusCode == 200);
-        else
+        else{
+          console.log(err)
           return reject(err);
+        }
       })
     })
   }
