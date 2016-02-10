@@ -1,16 +1,17 @@
 'use strict'
 
-const ipc = require('electron').ipcRenderer;
-const polling_interval = 120 * 1000; //30 seconds
-const reminder_interval = 60 * 60 * 1000; //1 Hour
-const Github = require('./github');
-const github = new Github();
-const date = new Date().toISOString();
-const NotificationCenter = require('node-notifier').NotificationCenter;
-const helper = require('./helper');
-const path = require('path');
-const remote = require('electron').remote;
-const BrowserWindow = remote.BrowserWindow;
+const ipc = require('electron').ipcRenderer
+const polling_interval = 120 * 1000; //2 mins
+const reminder_interval = 60 * 60 * 1000 //1 Hour
+const Github = require('./github')
+const github = new Github()
+const date = new Date().toISOString()
+const NotificationCenter = require('node-notifier').NotificationCenter
+const helper = require('./helper')
+const path = require('path')
+const remote = require('electron').remote
+const BrowserWindow = remote.BrowserWindow
+const exec = require('child_process').exec
 
 var notificationsCallback = function(data){
   console.log(date);
@@ -32,9 +33,6 @@ var notificationsCallback = function(data){
     type  = "Reminder"
   }
 
-  // new Notification('New Github Notification', {
-  //   body: message
-  // })
   var notifier = new NotificationCenter();
   var icon = path.join(helper.getRoot(), 'img', 'git_icon.png');
   notifier.notify({
@@ -45,6 +43,11 @@ var notificationsCallback = function(data){
     'icon': icon, // Absolute Path to Triggering Icon
     'wait': true // Wait for User Action against Notification
   });
+  notifier.on('click', function(obj, opts) {
+    exec('/usr/bin/open -a "/Applications/Google Chrome.app" https://github.com/notifications', function(e, o, i){
+      console.log("Opened Chrome")
+    })
+  })
   date = new Date().toISOString();
 }
 
