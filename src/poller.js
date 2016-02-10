@@ -23,12 +23,13 @@ var notificationsCallback = function(data){
     try {
       message = data[0].subject.title
       type = data[0].subject.type
-      url = data[0].repository.html_url
     } catch(e){
       message = "You have " + data.length + " unread Github notifications";
+      type  = "Reminder"
     }
   } else {
     message = "You have " + data.length + " unread Github notifications";
+    type  = "Reminder"
   }
 
   // new Notification('New Github Notification', {
@@ -65,12 +66,15 @@ function remindAboutNotifications() {
   })
 }
 
+remindAboutNotifications()
+
 var interval = setInterval(checkForNotifications, polling_interval);
 var reminder = setInterval(remindAboutNotifications, reminder_interval );
 
 ipc.on('reset', function() {
   clearInterval(interval);
   clearInterval(reminder);
+  remindAboutNotifications()
   interval = setInterval(notify, interval);
   reminder = setInterval(remindAboutNotifications, reminder_interval)
 })

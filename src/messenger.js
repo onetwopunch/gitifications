@@ -14,7 +14,7 @@ module.exports = class Messenger {
     this.window.loadURL(url);
 
     // NOTE: Useful in debugging client side errors from window.js
-    this.window.webContents.openDevTools();
+    // this.window.webContents.openDevTools();
 
     this.onLoad(() => {
       require('power-monitor').on('resume', this.reset.bind(this))

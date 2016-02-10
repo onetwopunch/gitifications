@@ -71,5 +71,5 @@ app.on('ready', function() {
     open_login_window()
   })
   app.dock.hide()
-
+  
 })
