@@ -1,7 +1,7 @@
 'use strict'
 
 const ipc = require('electron').ipcRenderer;
-const polling_interval = 30 * 1000; //30 seconds
+const polling_interval = 120 * 1000; //30 seconds
 const reminder_interval = 60 * 60 * 1000; //1 Hour
 const Github = require('./github');
 const github = new Github();
